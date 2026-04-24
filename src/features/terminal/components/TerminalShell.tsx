@@ -57,9 +57,13 @@ const createBootMessage = (locale: Locale, isCompact = getIsCompactViewport()): 
   ];
 };
 
+interface TerminalShellProps {
+  embedded?: boolean;
+}
+
 const serializeLines = (lines: string[]): string => lines.join('\n');
 
-export function TerminalShell() {
+export function TerminalShell({ embedded = false }: TerminalShellProps) {
   const [locale, setLocale] = useState<Locale>(initialLocale);
   const [theme, setTheme] = useState<TerminalTheme>('matrix');
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -200,17 +204,19 @@ export function TerminalShell() {
 
   return (
     <section
-      className={`terminal-shell ${themeClassMap[theme]} ${isFullscreen ? 'terminal-shell-fullscreen' : ''}`}
+      className={`terminal-shell ${themeClassMap[theme]} ${isFullscreen ? 'terminal-shell-fullscreen' : ''} ${embedded ? 'terminal-shell-embedded' : ''}`}
       aria-label="Portfolio terminal"
     >
-      <header className="terminal-window-bar" aria-hidden="true">
-        <div className="terminal-window-controls">
-          <span className="terminal-window-button terminal-window-button-close" />
-          <span className="terminal-window-button terminal-window-button-minimize" />
-          <span className="terminal-window-button terminal-window-button-maximize" />
-        </div>
-        <span className="terminal-window-title">portfolio-terminal</span>
-      </header>
+      {!embedded && (
+        <header className="terminal-window-bar" aria-hidden="true">
+          <div className="terminal-window-controls">
+            <span className="terminal-window-button terminal-window-button-close" />
+            <span className="terminal-window-button terminal-window-button-minimize" />
+            <span className="terminal-window-button terminal-window-button-maximize" />
+          </div>
+          <span className="terminal-window-title">portfolio-terminal</span>
+        </header>
+      )}
 
       <main
         className="terminal-screen"
