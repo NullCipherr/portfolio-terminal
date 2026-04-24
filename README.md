@@ -194,6 +194,7 @@ Use `.env.example` como baseline:
 
 - `VITE_PORTFOLIO_CONTENT_RAW_BASE_URL`: URL base raw do SSOT.
 - `VITE_DEFAULT_LOCALE`: locale inicial da sessão (`pt` ou `en`).
+- `VITE_BASE_PATH`: base pública para assets em deploy estático (ex.: `/portfolio-terminal/` no GitHub Pages).
 
 ---
 
@@ -208,27 +209,25 @@ Use `.env.example` como baseline:
 
 ## CI/CD
 
-Pipeline ainda não configurada neste repositório.
+Pipeline configurada com GitHub Actions:
 
-Recomendação inicial:
-
-- CI: install + type-check + build em push/PR.
-- CD: deploy estático para Vercel, Netlify ou GitHub Pages.
+- `CI` (`.github/workflows/ci.yml`): instala dependências, executa type-check (`npm run lint`) e build (`npm run build`) em push/PR.
+- `CD` (`.github/workflows/cd.yml`): em cada push na `main`, gera build de produção e publica automaticamente no GitHub Pages.
 
 ---
 
 ## Deployment
 
-Deploy sugerido como aplicação estática.
+Deploy automático via GitHub Pages.
 
 ```bash
-npm run build
+git push origin main
 ```
 
-Publicar pasta `dist/` no host de preferência.
+O workflow `CD` publica a pasta `dist/` como artifact do Pages usando `VITE_BASE_PATH=/portfolio-terminal/`.
 
 ---
 
 ## License
 
-Definir licença na publicação oficial do repositório `portfolio-terminal`.
+MIT. Consulte o arquivo `LICENSE`.
